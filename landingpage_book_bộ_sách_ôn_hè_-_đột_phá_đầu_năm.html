@@ -1,0 +1,1157 @@
+<!-- 
+  ========================================================================
+  LANDING PAGE BÁN SÁCH CHUYÊN NGHIỆP - TỐI ƯU HÓA ĐIỆN THOẠI DI ĐỘNG (MOBILE)
+  Bản quyền thiết kế bởi Chuyên gia UI/UX E-Commerce. 
+  Dễ dàng tích hợp vào widget "Custom HTML" của Elementor trên WordPress.
+  ========================================================================
+  
+  HƯỚNG DẪN TÙY CHỈNH CHO NGƯỜI MỚI (XEM CHI TIẾT BÊN TRONG):
+  1. Thay ảnh đại diện sách: Tìm kiếm từ khóa "LINK_ANH_BIA" và thay thế bằng URL ảnh của bạn.
+  2. Thay đổi giá bán & gói quà tặng: Tìm từ khóa "GOI_SAN_PHAM_X" để thay đổi giá trị.
+  3. Đổi Google Sheet Webhook URL: Tìm từ khóa "LINK_GOOGLE_SHEETS" và thay thế bằng link Google App Script đã triển khai.
+-->
+
+<!-- CSS Gốc & Animation Đặc Biệt - Tạo hiệu ứng tương tác kích thích chuyển đổi cực cao -->
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+  
+  /* Lớp phủ chặn tràn viền & Thiết lập Font chuẩn quốc tế */
+  .lp-body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f8fafc;
+    color: #1e293b;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* 1. Hiệu ứng dung lắc nút mua hàng (Urgent Pulse Attention) */
+  @keyframes pulseAttention {
+    0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
+    70% { transform: scale(1.04); box-shadow: 0 0 0 12px rgba(239, 68, 68, 0); }
+    100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+  }
+  
+  @keyframes shakeQuick {
+    0%, 100% { transform: rotate(0deg); }
+    15%, 45%, 75% { transform: rotate(-2deg); }
+    30%, 60%, 90% { transform: rotate(2deg); }
+  }
+
+  .btn-urgent-buy {
+    animation: pulseAttention 2s infinite, shakeQuick 4s infinite ease-in-out;
+  }
+
+  /* 2. Hiệu ứng bay bổng 3D nhẹ nhàng của bìa sách (Floating Book Cover Effect) */
+  @keyframes bookFloat {
+    0% { transform: translateY(0px) rotate(0deg); filter: drop-shadow(0 15px 15px rgba(0,0,0,0.15)); }
+    50% { transform: translateY(-12px) rotate(1.5deg); filter: drop-shadow(0 25px 25px rgba(0,0,0,0.25)); }
+    100% { transform: translateY(0px) rotate(0deg); filter: drop-shadow(0 15px 15px rgba(0,0,0,0.15)); }
+  }
+
+  .floating-book {
+    animation: bookFloat 4.5s ease-in-out infinite;
+    transform-style: preserve-3d;
+  }
+
+  /* 3. Hiệu ứng nhấp nháy ưu đãi có giới hạn (Flashing Stock/Timer Alert) */
+  @keyframes textFlash {
+    0%, 100% { opacity: 1; text-shadow: 0 0 8px rgba(239, 68, 68, 0.5); }
+    50% { opacity: 0.4; text-shadow: none; }
+  }
+
+  .flash_urgent {
+    animation: textFlash 1.5s infinite;
+  }
+
+  /* 4. Điều chỉnh Mobile Perfect - Dành cho Elementor */
+  @media (max-width: 768px) {
+    .mobile-padding-x {
+      padding-left: 1rem !important;
+      padding-right: 1rem !important;
+    }
+    .mobile-text-title {
+      font-size: 1.5rem !important;
+      line-height: 2rem !important;
+    }
+    .mobile-package-card {
+      padding: 1rem !important;
+    }
+  }
+
+  /* Bo góc sang trọng & đổ bóng nâng cao */
+  .premium-shadow {
+    box-shadow: 0 4px 20px -2px rgba(0,0,0,0.05), 0 2px 10px -1px rgba(0,0,0,0.03);
+  }
+</style>
+
+<!-- Tải thư viện Tailwind CSS hỗ trợ dựng giao diện siêu nhanh -->
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          brandRed: '#ef4444',
+          brandOrange: '#f97316',
+          brandAmber: '#f59e0b',
+          brandDark: '#0f172a',
+          brandGreen: '#10b981',
+        },
+        fontFamily: {
+          sans: ['Inter', 'sans-serif'],
+        }
+      }
+    }
+  }
+</script>
+
+<!-- Tải Thư viện Icon Lucide để hiển thị biểu tượng mượt mà -->
+<script src="https://unpkg.com/lucide@latest"></script>
+
+<!-- KHU VỰC THÂN TRANG LANDING PAGE -->
+<div class="lp-body">
+  
+  <!-- ==================== HEADER SECTION ==================== -->
+  <header class="bg-brandDark text-white py-2.5 px-4 text-center sticky top-0 z-50 shadow-md">
+    <div class="max-w-md mx-auto flex items-center justify-between">
+      <div class="flex items-center gap-1.5 text-left">
+        <span class="w-2 h-2 rounded-full bg-red-500 animate-ping"></span>
+        <span class="text-xs font-bold tracking-wider text-brandOrange uppercase">Công ty cổ phần sách Qbooks</span>
+      </div>
+      <div class="bg-brandOrange text-white text-[10px] rounded-full px-2.5 py-0.5 font-bold animate-pulse">
+        GIẢM 50% HÔM NAY
+      </div>
+    </div>
+    <!-- Thông báo khẩn cấp chạy chữ ngang, tạo không khí mua sắm tất bật -->
+    <div class="w-full bg-brandOrange/10 border-t border-brandOrange/20 mt-1.5 py-1 text-[10.5px] font-semibold text-brandOrange overflow-hidden whitespace-nowrap">
+      <div class="inline-block animate-marquee pl-[100%] leading-tight text-center">
+        ⚡ Miễn Phí Vận Chuyển Toàn Quốc - Kiểm Tra Hàng Trước Khi Thanh Toán
+      </div>
+    </div>
+  </header>
+
+  <!-- Container bao bọc chính, tối ưu hóa hiển thị dọc hoàn hảo trên môi trường Di Động -->
+  <main class="max-w-[480px] mx-auto bg-white border-x border-slate-100 min-h-screen pb-20 relative shadow-2xl">
+
+    <!-- ==================== HERO SECTION ==================== -->
+    <section class="pt-6 pb-8 px-4 text-center bg-gradient-to-b from-slate-50 to-white border-b border-slate-100">
+      
+      <!-- Đánh giá số dư đầu trang tạo niềm tin tức thì -->
+      <div class="inline-flex items-center gap-1 bg-brandAmber/10 border border-brandAmber/20 px-3 py-1 rounded-full mb-3.5">
+        <div class="flex text-brandAmber text-xs">
+          ★ ★ ★ ★ ★
+        </div>
+        <span class="text-[11px] font-bold text-amber-800">4.9/5 (14,850+ bình chọn)</span>
+      </div>
+
+      <!-- Tên Sách & Điểm nhấn chính -->
+      <h1 class="text-2xl font-extrabold text-brandDark tracking-tight leading-snug uppercase mb-2.5 mobile-text-title">
+        Bộ sách ôn hè - ĐỘT PHÁ đầu năm
+      </h1>
+      
+      <!-- Mô tả ngắn gọn xúc tích lôi kéo người đọc -->
+      <p class="text-xs text-slate-500 font-medium leading-relaxed mb-6 px-3">
+        Bộ sách đã giúp hàng triệu trẻ em tiến bộ nhanh chóng sau kỳ nghỉ hè, phá vỡ mọi rào cản học tập và kiến tạo nền móng vững chắc cho những năm học tiếp theo.
+      </p>
+
+      <!-- Bìa sách 3D - Floating Effect kèm bóng đổ chuyển động -->
+      <div class="flex justify-center mb-8 relative">
+        <div class="absolute -inset-1 rounded-full bg-brandOrange/10 blur-2xl max-w-xs mx-auto"></div>
+        <!-- 
+          [THAY_ANH_BIA] Hướng dẫn: Để đổi sang ảnh sách của riêng bạn, 
+          hãy thay thế link URL ở thuộc tính 'src' phía dưới bằng link của bạn.
+        -->
+        <img 
+          id="product-cover"
+          src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&q=80&w=600" 
+          alt="Bộ sách ôn hè - ĐỘT PHÁ đầu năm"
+          class="w-[200px] h-[280px] object-cover rounded-xl shadow-2xl floating-book border border-slate-100"
+        />
+        <!-- Huy hiệu ưu đãi dán góc phải cực kỳ lôi cuốn -->
+        <div class="absolute right-12 bottom-6 bg-gradient-to-br from-red-600 to-orange-500 text-white rounded-full w-16 h-16 flex flex-col justify-center items-center font-extrabold shadow-lg border-2 border-white transform rotate-12 scale-100">
+          <span class="text-[10px] uppercase font-bold leading-none">GIẢM</span>
+          <span class="text-lg leading-tight">50%</span>
+          <span class="text-[8px] uppercase font-bold text-red-100 leading-none">OFF</span>
+        </div>
+      </div>
+
+      <!-- Khung đồng hồ đếm ngược gấp gáp khơi gợi nỗi sợ bở lỡ cơ hội (FOMO) -->
+      <div class="bg-red-50 border border-red-100 rounded-xl p-4 mb-6 mx-2">
+        <p class="text-[11.5px] font-bold text-red-600 uppercase tracking-wide flex items-center justify-center gap-1.5 mb-2.5">
+          <i data-lucide="clock" class="w-3.5 h-3.5 flash_urgent"></i>
+          ƯU ĐÃI NÀY KẾT THÚC SAU CHỈ CÒN:
+        </p>
+        <div class="grid grid-cols-3 gap-2.5 max-w-[240px] mx-auto">
+          <div class="bg-brandDark text-white py-1.5 px-2 rounded-lg font-mono font-black text-lg shadow">
+            <span id="hours-timer">00</span>
+            <div class="text-[8px] font-bold text-slate-400 mt-0.5 uppercase">Giờ</div>
+          </div>
+          <div class="bg-brandDark text-white py-1.5 px-2 rounded-lg font-mono font-black text-lg shadow">
+            <span id="minutes-timer">25</span>
+            <div class="text-[8px] font-bold text-slate-400 mt-0.5 uppercase">Phút</div>
+          </div>
+          <div class="bg-brandDark text-white py-1.5 px-2 rounded-lg font-mono font-black text-lg shadow">
+            <span id="seconds-timer">35</span>
+            <div class="text-[8px] font-bold text-slate-400 mt-0.5 uppercase">Giây</div>
+          </div>
+        </div>
+        <p class="text-[10px] text-slate-400 mt-2 font-medium">Hiện tại có <span class="text-red-500 font-bold font-mono">112</span> người đang cùng xem trang này.</p>
+      </div>
+
+      <!-- Nút kêu gọi hành động đỉnh cao (CTA) - Cuộn thẳng xuống Form đặt hàng -->
+      <a 
+        href="#dat-hang-ngay" 
+        class="block w-full py-4 px-6 bg-gradient-to-r from-red-600 to-orange-500 hover:from-red-700 hover:to-orange-600 text-white font-extrabold text-sm rounded-xl uppercase tracking-wider shadow-lg transition duration-300 transform active:scale-95 btn-urgent-buy text-center"
+      >
+        MUA NGAY GIẢM GIÁ 50%
+      </a>
+      
+      <div class="flex items-center justify-between mt-4 px-2 text-[10.5px] font-medium text-slate-400">
+        <span class="flex items-center gap-1"><i data-lucide="check-circle" class="w-3.5 h-3.5 text-emerald-500"></i> Miễn phí giao hàng</span>
+        <span class="flex items-center gap-1"><i data-lucide="shield-check" class="w-3.5 h-3.5 text-emerald-500"></i> Kiểm tra rồi trả tiền</span>
+        <span class="flex items-center gap-1"><i data-lucide="refresh-cw" class="w-3.5 h-3.5 text-emerald-500"></i> Hoàn trả 100%</span>
+      </div>
+    </section>
+
+    <!-- ==================== SECTION 2: PAIN POINTS (NỖI ĐAU KHÁCH HÀNG) ==================== -->
+    <section class="py-8 px-4 bg-slate-50 border-b border-slate-100">
+      <div class="text-center mb-6">
+        <span class="text-[10px] font-bold text-red-500 uppercase tracking-widest bg-red-100 px-2.5 py-1 rounded-full">THỰC TRẠNG</span>
+        <h2 class="text-base font-extrabold text-brandDark mt-2 uppercase leading-snug px-2">
+          BẠN CÓ ĐANG GẶP PHẢI NHỮNG KHÓ KHĂN NÀY?
+        </h2>
+      </div>
+
+      <div class="space-y-3 px-1">
+        
+        <div class="flex items-start gap-3 bg-white p-3.5 rounded-xl border border-red-100/50 premium-shadow">
+          <div class="bg-red-50 text-red-500 rounded-full p-1.5 flex-shrink-0 mt-0.5">
+            <i data-lucide="x" class="w-3.5 h-3.5"></i>
+          </div>
+          <p class="text-xs text-slate-600 font-medium leading-relaxed">
+            Luôn cảm thấy bế tắc, trì hoãn và không tìm ra hướng đi đột phá cho bản thân.
+          </p>
+        </div>
+        
+        <div class="flex items-start gap-3 bg-white p-3.5 rounded-xl border border-red-100/50 premium-shadow">
+          <div class="bg-red-50 text-red-500 rounded-full p-1.5 flex-shrink-0 mt-0.5">
+            <i data-lucide="x" class="w-3.5 h-3.5"></i>
+          </div>
+          <p class="text-xs text-slate-600 font-medium leading-relaxed">
+            Làm việc cật lực nhưng thu nhập vẫn lẹt đẹt, không quản lý được dòng tiền cá nhân.
+          </p>
+        </div>
+        
+        <div class="flex items-start gap-3 bg-white p-3.5 rounded-xl border border-red-100/50 premium-shadow">
+          <div class="bg-red-50 text-red-500 rounded-full p-1.5 flex-shrink-0 mt-0.5">
+            <i data-lucide="x" class="w-3.5 h-3.5"></i>
+          </div>
+          <p class="text-xs text-slate-600 font-medium leading-relaxed">
+            Bị cuốn theo suy nghĩ số đông, thường xuyên rơi vào lo âu, stress và mất định hướng.
+          </p>
+        </div>
+        
+        <div class="flex items-start gap-3 bg-white p-3.5 rounded-xl border border-red-100/50 premium-shadow">
+          <div class="bg-red-50 text-red-500 rounded-full p-1.5 flex-shrink-0 mt-0.5">
+            <i data-lucide="x" class="w-3.5 h-3.5"></i>
+          </div>
+          <p class="text-xs text-slate-600 font-medium leading-relaxed">
+            Giao tiếp thiếu tự tin, khó thuyết phục người khác và thiết lập các mối quan hệ chất lượng.
+          </p>
+        </div>
+        
+      </div>
+    </section>
+
+    <!-- ==================== SECTION 3: SOLUTION (GIẢI PHÁP TỪ SÁCH) ==================== -->
+    <section class="py-8 px-4 border-b border-slate-100">
+      <div class="text-center mb-6">
+        <span class="text-[10px] font-bold text-brandGreen uppercase tracking-widest bg-emerald-100 text-emerald-800 px-2.5 py-1 rounded-full">GIẢI PHÁP CHUYÊN BIỆT</span>
+        <h2 class="text-base font-extrabold text-brandDark mt-2 uppercase leading-snug">
+          CUỐN SÁCH NÀY SẼ LÀ CHIẾC CHÌA KHÓA MỞ RA CÁNH CỬA MỚI
+        </h2>
+      </div>
+
+      <div class="space-y-4 px-1">
+        
+        <div class="bg-gradient-to-br from-emerald-50/40 to-white border border-emerald-100/60 p-4 rounded-xl premium-shadow">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="bg-brandGreen text-white w-5 h-5 rounded-full flex items-center justify-center font-mono font-black text-xs leading-none">
+              1
+            </span>
+            <h3 class="text-xs font-bold text-teal-980 uppercase tracking-tight">Phá vỡ tư duy lối mòn</h3>
+          </div>
+          <p class="text-[11.5px] text-slate-500 leading-relaxed pl-7">
+            Cách suy nghĩ độc bản, bóc tách vấn đề theo phương pháp 'tư duy ngược' giúp bạn nhìn thấu cơ hội khi người khác chỉ thấy thách thức.
+          </p>
+        </div>
+        
+        <div class="bg-gradient-to-br from-emerald-50/40 to-white border border-emerald-100/60 p-4 rounded-xl premium-shadow">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="bg-brandGreen text-white w-5 h-5 rounded-full flex items-center justify-center font-mono font-black text-xs leading-none">
+              2
+            </span>
+            <h3 class="text-xs font-bold text-teal-980 uppercase tracking-tight">Làm chủ tài chính cá nhân</h3>
+          </div>
+          <p class="text-[11.5px] text-slate-500 leading-relaxed pl-7">
+            Công thức tối ưu hóa chi tiêu, nhân bản dòng tiền và định vị tư thế làm giàu từ các bậc thầy tài chính hàng đầu.
+          </p>
+        </div>
+        
+        <div class="bg-gradient-to-br from-emerald-50/40 to-white border border-emerald-100/60 p-4 rounded-xl premium-shadow">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="bg-brandGreen text-white w-5 h-5 rounded-full flex items-center justify-center font-mono font-black text-xs leading-none">
+              3
+            </span>
+            <h3 class="text-xs font-bold text-teal-980 uppercase tracking-tight">Rèn luyện thần thái tự tin</h3>
+          </div>
+          <p class="text-[11.5px] text-slate-500 leading-relaxed pl-7">
+            Giải phóng nỗi sợ hãi, thiết lập tư duy tích cực bền vững và làm chủ mọi hoàn cảnh giao tiếp đỉnh cao.
+          </p>
+        </div>
+        
+      </div>
+    </section>
+
+    <!-- ==================== SECTION 4: BENEFITS (LỢI ÍCH CUỐN SÁCH) ==================== -->
+    <section class="py-8 px-4 bg-brandDark text-white border-b border-slate-100 relative overflow-hidden">
+      <div class="absolute -top-12 -right-12 w-32 h-32 bg-brandOrange/10 rounded-full blur-2xl"></div>
+      
+      <div class="text-center mb-6 relative z-10">
+        <span class="text-[9px] font-bold text-brandOrange tracking-widest border border-brandOrange/30 px-2.5 py-0.5 rounded-full uppercase">SỰ KHÁC BIỆT</span>
+        <h2 class="text-base font-black mt-2.5 uppercase leading-snug tracking-normal">
+          BẠN SẼ NHẬN ĐƯỢC GÌ SAU KHI ĐỌC CUỐN SÁCH?
+        </h2>
+      </div>
+
+      <div class="space-y-3.5 px-1 relative z-10">
+        
+        <div class="flex items-start gap-2.5 bg-slate-800/60 border border-slate-700/50 p-3.5 rounded-xl">
+          <div class="w-5 h-5 rounded-full bg-emerald-500 text-slate-900 flex items-center justify-center flex-shrink-0 mt-0.5">
+            <i data-lucide="check" class="w-3.5 h-3.5 text-white"></i>
+          </div>
+          <p class="text-xs text-slate-300 font-medium leading-relaxed">
+            Sở hữu bản đồ tư duy ngược đột phá để tự giải quyết mọi bài toán cuộc đời.
+          </p>
+        </div>
+        
+        <div class="flex items-start gap-2.5 bg-slate-800/60 border border-slate-700/50 p-3.5 rounded-xl">
+          <div class="w-5 h-5 rounded-full bg-emerald-500 text-slate-900 flex items-center justify-center flex-shrink-0 mt-0.5">
+            <i data-lucide="check" class="w-3.5 h-3.5 text-white"></i>
+          </div>
+          <p class="text-xs text-slate-300 font-medium leading-relaxed">
+            Tăng 200% hiệu suất làm việc nhờ loại bỏ thói quen trì hoãn tiêu cực.
+          </p>
+        </div>
+        
+        <div class="flex items-start gap-2.5 bg-slate-800/60 border border-slate-700/50 p-3.5 rounded-xl">
+          <div class="w-5 h-5 rounded-full bg-emerald-500 text-slate-900 flex items-center justify-center flex-shrink-0 mt-0.5">
+            <i data-lucide="check" class="w-3.5 h-3.5 text-white"></i>
+          </div>
+          <p class="text-xs text-slate-300 font-medium leading-relaxed">
+            Xây dựng kế hoạch tài chính vững vàng chỉ trong 30 ngày áp dụng thực tế.
+          </p>
+        </div>
+        
+        <div class="flex items-start gap-2.5 bg-slate-800/60 border border-slate-700/50 p-3.5 rounded-xl">
+          <div class="w-5 h-5 rounded-full bg-emerald-500 text-slate-900 flex items-center justify-center flex-shrink-0 mt-0.5">
+            <i data-lucide="check" class="w-3.5 h-3.5 text-white"></i>
+          </div>
+          <p class="text-xs text-slate-300 font-medium leading-relaxed">
+            Trở thành phiên bản tự tin nhất, thu hút cơ hội thăng tiến và hạnh phúc.
+          </p>
+        </div>
+        
+        <div class="flex items-start gap-2.5 bg-slate-800/60 border border-slate-700/50 p-3.5 rounded-xl">
+          <div class="w-5 h-5 rounded-full bg-emerald-500 text-slate-900 flex items-center justify-center flex-shrink-0 mt-0.5">
+            <i data-lucide="check" class="w-3.5 h-3.5 text-white"></i>
+          </div>
+          <p class="text-xs text-slate-300 font-medium leading-relaxed">
+            Tặng kèm: Bản PDF Nhật ký thực hành Tư Duy Ngược & Phiếu ưu đãi 20% khóa học chuyên sâu.
+          </p>
+        </div>
+        
+      </div>
+    </section>
+
+    <!-- ==================== SECTION 5: RATING & TESTIMONIALS (ĐÁNH GIÁ KHÁCH HÀNG) ==================== -->
+    <section class="py-8 px-4 bg-slate-50 border-b border-slate-100">
+      <div class="text-center mb-6">
+        <span class="text-[10px] font-bold text-brandOrange uppercase tracking-widest bg-orange-100 text-orange-800 px-2.5 py-1 rounded-full">Ý KIẾN ĐỘC GIẢ</span>
+        <h2 class="text-base font-extrabold text-brandDark mt-2 uppercase leading-snug">
+          HƠN 14.800+ ĐỘC GIẢ ĐÃ THAY ĐỔI CUỘC ĐỜI THÀNH CÔNG
+        </h2>
+      </div>
+
+      <!-- Bản tóm tắt điểm đánh giá -->
+      <div class="bg-white p-5 rounded-2xl border border-slate-100/80 mb-5 text-center shadow-sm">
+        <p class="text-4xl font-black text-brandDark mb-1">4.9</p>
+        <div class="flex justify-center text-brandAmber text-sm mb-1.5">
+          ★ ★ ★ ★ ★
+        </div>
+        <p class="text-xs font-semibold text-slate-400">99.4% Độc giả cực kỳ hài lòng với nội dung</p>
+      </div>
+
+      <!-- Danh sách bình luận -->
+      <div id="comments-container" class="space-y-4">
+        
+        <div class="bg-white p-4 rounded-xl border border-slate-100/80 premium-shadow">
+          <div class="flex items-center justify-between mb-2">
+            <div class="flex items-center gap-2.5">
+              <img 
+                src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=150" 
+                alt="Nguyễn Minh Thư" 
+                class="w-8 h-8 rounded-full object-cover ring-2 ring-slate-100"
+              />
+              <div>
+                <div class="flex items-center gap-1.5">
+                  <span class="text-xs font-bold text-slate-800">Nguyễn Minh Thư</span>
+                  
+                  <span class="inline-flex items-center gap-0.5 bg-emerald-50 text-emerald-600 text-[8.5px] font-extrabold px-1.5 py-0.2 rounded-full border border-emerald-100">
+                    <i data-lucide="check" class="w-2.5 h-2.5"></i> Đã mua
+                  </span>
+                  
+                </div>
+                <div class="flex text-brandAmber text-[9px] gap-0.5 mt-0.5">
+                  ★ ★ ★ ★ ★
+                </div>
+              </div>
+            </div>
+            <span class="text-[9.5px] font-medium text-slate-400">Vừa xong</span>
+          </div>
+          
+          <p class="text-xs text-slate-600 leading-relaxed font-normal mb-2.5 pl-0.5">
+            Cuốn sách thực sự là một cú tát tỉnh thức đối với mình. Lối hành văn cực kỳ gần gũi, đụng chạm đến những vết thương giấu kín của người trẻ và vẽ đường đi cụ thể. Mình đã hết thói quen trì hoãn!
+          </p>
+
+          
+          <div class="bg-slate-50 border-l-2 border-brandOrange p-2.5 rounded-md mt-2 ml-2">
+            <div class="flex items-center gap-1.5 mb-1">
+              <span class="text-[10px] font-bold text-brandOrange">Nhà sách Tinh Hoa</span>
+              <span class="bg-brandOrange/10 text-brandOrange text-[7.5px] px-1 rounded">Admin</span>
+            </div>
+            <p class="text-[10.5px] text-slate-500 leading-relaxed font-normal">Cảm ơn Minh Thư rất nhiều! Chúc bạn gặt hái được nhiều thành công hơn nữa trên hành trình Tư duy ngược nhé! 💖</p>
+          </div>
+          
+        </div>
+        
+        <div class="bg-white p-4 rounded-xl border border-slate-100/80 premium-shadow">
+          <div class="flex items-center justify-between mb-2">
+            <div class="flex items-center gap-2.5">
+              <img 
+                src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=150" 
+                alt="Trần Hoàng Nam" 
+                class="w-8 h-8 rounded-full object-cover ring-2 ring-slate-100"
+              />
+              <div>
+                <div class="flex items-center gap-1.5">
+                  <span class="text-xs font-bold text-slate-800">Trần Hoàng Nam</span>
+                  
+                  <span class="inline-flex items-center gap-0.5 bg-emerald-50 text-emerald-600 text-[8.5px] font-extrabold px-1.5 py-0.2 rounded-full border border-emerald-100">
+                    <i data-lucide="check" class="w-2.5 h-2.5"></i> Đã mua
+                  </span>
+                  
+                </div>
+                <div class="flex text-brandAmber text-[9px] gap-0.5 mt-0.5">
+                  ★ ★ ★ ★ ★
+                </div>
+              </div>
+            </div>
+            <span class="text-[9.5px] font-medium text-slate-400">12 phút trước</span>
+          </div>
+          
+          <p class="text-xs text-slate-600 leading-relaxed font-normal mb-2.5 pl-0.5">
+            Chất lượng sách tuyệt vời, bìa cứng sang chảnh lắm nha mọi người. Đóng gói rất kỹ, giao hàng sau 2 ngày đã nhận được rồi. Rất ưng ý với combo 2 cuốn siêu tiết kiệm.
+          </p>
+
+          
+        </div>
+        
+        <div class="bg-white p-4 rounded-xl border border-slate-100/80 premium-shadow">
+          <div class="flex items-center justify-between mb-2">
+            <div class="flex items-center gap-2.5">
+              <img 
+                src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=150" 
+                alt="Lê Thị Lan Anh" 
+                class="w-8 h-8 rounded-full object-cover ring-2 ring-slate-100"
+              />
+              <div>
+                <div class="flex items-center gap-1.5">
+                  <span class="text-xs font-bold text-slate-800">Lê Thị Lan Anh</span>
+                  
+                  <span class="inline-flex items-center gap-0.5 bg-emerald-50 text-emerald-600 text-[8.5px] font-extrabold px-1.5 py-0.2 rounded-full border border-emerald-100">
+                    <i data-lucide="check" class="w-2.5 h-2.5"></i> Đã mua
+                  </span>
+                  
+                </div>
+                <div class="flex text-brandAmber text-[9px] gap-0.5 mt-0.5">
+                  ★ ★ ★ ★ ★
+                </div>
+              </div>
+            </div>
+            <span class="text-[9.5px] font-medium text-slate-400">30 phút trước</span>
+          </div>
+          
+          <p class="text-xs text-slate-600 leading-relaxed font-normal mb-2.5 pl-0.5">
+            Lúc đầu mua định đọc thử xem sao thôi, mà càng đọc càng cuốn không dứt ra nổi. Từng trang sách như có lực hút ấy. Rất thích phương pháp quản lý tài chính trong chương 4, rất thực tế.
+          </p>
+
+          
+          <div class="bg-slate-50 border-l-2 border-brandOrange p-2.5 rounded-md mt-2 ml-2">
+            <div class="flex items-center gap-1.5 mb-1">
+              <span class="text-[10px] font-bold text-brandOrange">Nhà sách Tinh Hoa</span>
+              <span class="bg-brandOrange/10 text-brandOrange text-[7.5px] px-1 rounded">Admin</span>
+            </div>
+            <p class="text-[10.5px] text-slate-500 leading-relaxed font-normal">Dạ cảm ơn chị Lan Anh ạ, chương tài chính được cố vấn bởi các chuyên gia nên áp dụng rất nhanh hiệu quả đó ạ!</p>
+          </div>
+          
+        </div>
+        
+      </div>
+
+      <!-- Form gửi phản hồi trực tiếp thú vị -->
+      <div class="bg-white p-4 rounded-xl border border-slate-150 border-dashed mt-5">
+        <h4 class="text-xs font-bold text-slate-700 uppercase mb-3">GỬI PHẢN HỒI CỦA BẠN</h4>
+        <div class="space-y-2.5">
+          <div class="flex items-center gap-2">
+            <span class="text-xs font-semibold text-slate-500">Đánh giá sao:</span>
+            <div class="flex text-slate-300 gap-1 cursor-pointer text-sm" id="user-rating-stars">
+              <span data-star="1" class="text-brandAmber transition hover:scale-110">★</span>
+              <span data-star="2" class="text-brandAmber transition hover:scale-110">★</span>
+              <span data-star="3" class="text-brandAmber transition hover:scale-110">★</span>
+              <span data-star="4" class="text-brandAmber transition hover:scale-110">★</span>
+              <span data-star="5" class="text-brandAmber transition hover:scale-110">★</span>
+            </div>
+          </div>
+          <input 
+            type="text" 
+            id="user-review-name" 
+            placeholder="Họ và tên của bạn..." 
+            class="w-full text-xs p-2.5 border border-slate-200 rounded-lg focus:outline-none focus:border-brandOrange"
+          />
+          <textarea 
+            id="user-review-text" 
+            placeholder="Cảm nhận của bạn về cuốn sách..." 
+            rows="2" 
+            class="w-full text-xs p-2.5 border border-slate-200 rounded-lg focus:outline-none focus:border-brandOrange resize-none"
+          ></textarea>
+          <button 
+            type="button" 
+            id="btn-submit-review"
+            class="w-full py-2 bg-slate-800 hover:bg-slate-900 text-white font-bold text-xs rounded-lg uppercase tracking-wider transition"
+          >
+            ĐĂNG BÌNH LUẬN NGAY
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== SECTION 6: CHẾ ĐỘ CAMERA HOẶC QUAY SỐ TRÚNG THỦỞNG (GAMIFICATION) ==================== -->
+    <section class="py-7 px-4 bg-gradient-to-tr from-orange-50 to-amber-50/50 border-b border-slate-150 text-center">
+      <div class="inline-block bg-brandOrange/10 border border-brandOrange/30 text-brandOrange rounded-full p-1 mb-2.5">
+        <div class="flex items-center gap-1 px-2.5 py-0.5 text-[9px] font-bold uppercase">
+          <i data-lucide="sparkles" class="w-3 h-3"></i> VÒNG QUAY MAY MẮN
+        </div>
+      </div>
+      <h3 class="text-xs font-black text-brandDark uppercase mb-1">MỞ KHÓA MÃ MIỄN PHÍ VẬN CHUYỂN</h3>
+      <p class="text-[10.5px] text-slate-500 mb-4 px-2">Nhấp quay thưởng bên dưới để nhận thêm mã voucher tiết kiệm sâu hoặc combo quà tặng đặc biệt!</p>
+      
+      <div class="max-w-[180px] mx-auto relative mb-4">
+        <!-- Vòng quay đơn giản bằng CSS cực sang -->
+        <div 
+          id="wheel-element" 
+          class="w-36 h-36 rounded-full border-4 border-amber-400 bg-gradient-to-br from-red-500 via-orange-400 to-amber-400 mx-auto transition-transform duration-[3000ms] ease-out shadow-lg flex items-center justify-center text-white font-black text-sm relative"
+        >
+          <div class="absolute inset-0 rounded-full border-2 border-dashed border-white/40"></div>
+          <span class="z-10 bg-brandDark text-brandAmber text-[9px] font-bold px-2.5 py-1.5 rounded-full uppercase shadow">VUI LÒNG QUAY</span>
+          <!-- Các mũi chia ranh giới -->
+          <div class="absolute w-full h-0.5 bg-white/20 top-1/2 left-0"></div>
+          <div class="absolute w-full h-0.5 bg-white/20 top-0 left-1/2 transform -translate-x-1/2 rotate-90"></div>
+        </div>
+      </div>
+
+      <button 
+        type="button" 
+        id="btn-spin-wheel"
+        class="py-2.5 px-6 bg-brandAmber text-slate-900 font-extrabold text-[11.5px] rounded-full uppercase tracking-wider shadow-md hover:bg-amber-500 transition inline-flex items-center gap-1.5"
+      >
+        <i data-lucide="play" class="w-3.5 h-3.5"></i> QUAY QUÀ NGAY
+      </button>
+      <p id="wheel-status-text" class="text-[11px] text-emerald-600 font-extrabold mt-3.5 h-4"></p>
+    </section>
+
+    <!-- ==================== SECTION 7: CHECKOUT & FORM ĐẶT HÀNG (QUYẾT ĐỊNH DOANH SỐ) ==================== -->
+    <section id="dat-hang-ngay" class="py-8 px-4 bg-white scroll-mt-20">
+      
+      <div class="text-center mb-6">
+        <span class="text-[9.5px] font-black text-red-500 bg-red-100 px-3 py-1 rounded-full uppercase tracking-widest">ĐĂNG KÝ HÔM NAY</span>
+        <h2 class="text-base font-extrabold text-brandDark mt-2.5 uppercase leading-snug px-3">
+          CHƯƠNG TRÌNH ƯU ĐÃI ĐẶC BIỆT (CHỈ HÔM NAY)
+        </h2>
+        <p class="text-[10.5px] text-slate-400 mt-1">Vui lòng điền thông tin chính xác. Chúng tôi sẽ gọi điện xác nhận trong 15 phút.</p>
+      </div>
+
+      <!-- Form cốt lõi thực tế -->
+      <form id="checkout-order-form" class="space-y-4">
+        
+        <!-- Khối lựa chọn gói sản phẩm dạng Thẻ (Package Card Selection) cực kỳ trực quan -->
+        <div class="space-y-3 mb-6">
+          <label class="block text-xs font-bold text-slate-700 uppercase tracking-tight mb-2">1. CHỌN ƯU ĐÃI CỦA BẠN:</label>
+          
+          
+            <label 
+              id="container-pkg-1"
+              class="relative block border-2 border-slate-200 rounded-xl p-4 cursor-pointer hover:border-brandOrange/50 transition mobile-package-card premium-shadow"
+            >
+              <input 
+                type="radio" 
+                name="package_selection" 
+                value="pkg-1" 
+                data-price="199000"
+                data-name="Gói Trải Nghiệm (Mua 1 Cuốn)"
+                 
+                class="absolute right-4 top-4 w-4.5 h-4.5 text-brandOrange focus:ring-brandOrange active:border-brandOrange mt-0.5"
+                onchange="updateSelectedPackageUI('pkg-1')"
+              />
+              
+              <!-- Badge góc nổi bật -->
+              
+
+              <div class="pr-6">
+                <span class="block text-xs font-extrabold text-brandDark uppercase tracking-tight mb-1.5">Gói Trải Nghiệm (Mua 1 Cuốn)</span>
+                <div class="flex items-baseline gap-2 mb-1.5">
+                  <span class="text-base font-black text-red-650 text-red-600">199.000 ₫</span>
+                  <span class="text-[11px] font-semibold text-slate-400 line-through">398.000 ₫</span>
+                </div>
+                <p class="text-[10.5px] text-slate-400 font-medium leading-relaxed">Tiết kiệm 50% + Tặng Bookmark nghệ thuật. Phí ship toàn quốc 25k.</p>
+              </div>
+            </label>
+            
+            <label 
+              id="container-pkg-2"
+              class="relative block border-2 border-brandOrange bg-orange-50/10 rounded-xl p-4 cursor-pointer hover:border-brandOrange/50 transition mobile-package-card premium-shadow"
+            >
+              <input 
+                type="radio" 
+                name="package_selection" 
+                value="pkg-2" 
+                data-price="349000"
+                data-name="Combo Đột Phá (Mua 2 Cuốn) - BEST SELLER ✦"
+                checked 
+                class="absolute right-4 top-4 w-4.5 h-4.5 text-brandOrange focus:ring-brandOrange active:border-brandOrange mt-0.5"
+                onchange="updateSelectedPackageUI('pkg-2')"
+              />
+              
+              <!-- Badge góc nổi bật -->
+              <span class="absolute -top-3 left-4 bg-gradient-to-r from-red-600 to-orange-500 text-white text-[8.5px] font-extrabold px-2.5 py-0.5 rounded-full shadow-sm uppercase">KHUYÊN DÙNG</span>
+
+              <div class="pr-6">
+                <span class="block text-xs font-extrabold text-brandDark uppercase tracking-tight mb-1.5">Combo Đột Phá (Mua 2 Cuốn) - BEST SELLER ✦</span>
+                <div class="flex items-baseline gap-2 mb-1.5">
+                  <span class="text-base font-black text-red-650 text-red-600">349.000 ₫</span>
+                  <span class="text-[11px] font-semibold text-slate-400 line-through">796.000 ₫</span>
+                </div>
+                <p class="text-[10.5px] text-slate-400 font-medium leading-relaxed">Miễn Phí Ship Toàn Quốc + Tặng Sách Nói Bản Quyền + Bản PDF Nhật Ký Thực Hành.</p>
+              </div>
+            </label>
+            
+            <label 
+              id="container-pkg-3"
+              class="relative block border-2 border-slate-200 rounded-xl p-4 cursor-pointer hover:border-brandOrange/50 transition mobile-package-card premium-shadow"
+            >
+              <input 
+                type="radio" 
+                name="package_selection" 
+                value="pkg-3" 
+                data-price="489000"
+                data-name="Combo Đồng Đội (Mua 3 Cuốn)"
+                 
+                class="absolute right-4 top-4 w-4.5 h-4.5 text-brandOrange focus:ring-brandOrange active:border-brandOrange mt-0.5"
+                onchange="updateSelectedPackageUI('pkg-3')"
+              />
+              
+              <!-- Badge góc nổi bật -->
+              <span class="absolute -top-3 left-4 bg-gradient-to-r from-red-600 to-orange-500 text-white text-[8.5px] font-extrabold px-2.5 py-0.5 rounded-full shadow-sm uppercase">TIẾT KIỆM NHẤT</span>
+
+              <div class="pr-6">
+                <span class="block text-xs font-extrabold text-brandDark uppercase tracking-tight mb-1.5">Combo Đồng Đội (Mua 3 Cuốn)</span>
+                <div class="flex items-baseline gap-2 mb-1.5">
+                  <span class="text-base font-black text-red-650 text-red-600">489.000 ₫</span>
+                  <span class="text-[11px] font-semibold text-slate-400 line-through">1.194.000 ₫</span>
+                </div>
+                <p class="text-[10.5px] text-slate-400 font-medium leading-relaxed">Miễn Phí Ship Toàn Quốc + Tặng Toàn Bộ Quà Tặng Đột Phá + Thẻ Thành Viên VIP CLB.</p>
+              </div>
+            </label>
+            
+        </div>
+
+        <!-- Khối nhập thông tin khách hàng -->
+        <div class="space-y-3.5 bg-slate-50 p-4 rounded-xl border border-slate-100">
+          <label class="block text-xs font-bold text-slate-700 uppercase tracking-tight">2. THÔNG TIN GIAO HÀNG:</label>
+
+          <div>
+            <div class="relative">
+              <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                <i data-lucide="user" class="w-4 h-4"></i>
+              </div>
+              <input 
+                type="text" 
+                name="customer_name" 
+                id="client-name-input"
+                required
+                placeholder="Họ và tên của bạn..." 
+                class="block w-full pl-9 pr-3 py-2.5 text-xs bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-brandOrange focus:border-brandOrange font-medium"
+              />
+            </div>
+          </div>
+
+          <div>
+            <div class="relative">
+              <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                <i data-lucide="phone" class="w-4 h-4"></i>
+              </div>
+              <input 
+                type="tel" 
+                name="customer_phone" 
+                id="client-phone-input"
+                required
+                placeholder="Số điện thoại nhận hàng..." 
+                class="block w-full pl-9 pr-3 py-2.5 text-xs bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-brandOrange focus:border-brandOrange font-medium"
+              />
+            </div>
+            <p id="phone-validation-tip" class="text-[9.5px] text-red-500 font-medium mt-1 hidden">Số điện thoại Việt Nam hợp lệ phải có 10 chữ số (Ví dụ: 0987654321).</p>
+          </div>
+
+          <div>
+            <div class="relative">
+              <div class="absolute inset-y-0 left-0 pl-3 pt-3 flex items-start pointer-events-none text-slate-400">
+                <i data-lucide="map-pin" class="w-4 h-4"></i>
+              </div>
+              <textarea 
+                name="customer_address" 
+                id="client-address-input"
+                required
+                rows="2"
+                placeholder="Địa chỉ giao nhận hàng chính xác (Số nhà, đường, phường/xã, quận/huyện, tỉnh/thành)..." 
+                class="block w-full pl-9 pr-3 py-2.5 text-xs bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-brandOrange focus:border-brandOrange font-medium resize-none"
+              ></textarea>
+            </div>
+          </div>
+
+          <div>
+            <div class="relative">
+              <div class="absolute inset-y-0 left-0 pl-3 pt-3 flex items-start pointer-events-none text-slate-400">
+                <i data-lucide="message-square" class="w-4 h-4"></i>
+              </div>
+              <textarea 
+                name="customer_note" 
+                id="client-note-input"
+                rows="1"
+                placeholder="Lưu ý giao hàng (Ví dụ: gọi trước 12h trưa, giao cuối tuần)..." 
+                class="block w-full pl-9 pr-3 py-2.5 text-xs bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-brandOrange focus:border-brandOrange font-medium resize-none"
+              ></textarea>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tóm tắt thanh toán trực quan gia tăng tính thuyết phục -->
+        <div class="bg-brandDark/5 p-3 rounded-lg flex justify-between items-center px-4 py-3 border border-slate-100">
+          <span class="text-xs font-bold text-slate-600">Tổng thanh toán dự kiến:</span>
+          <span class="text-lg font-black text-red-600" id="form-total-price-display">349.000 ₫</span>
+        </div>
+
+        <!-- Nút Gửi Đơn Hàng lớn, nổi bật dưới ngón cái của người dùng -->
+        <button 
+          type="submit" 
+          id="btn-submit-order"
+          class="w-full py-4 bg-gradient-to-r from-red-600 to-orange-500 hover:from-red-700 hover:to-orange-650 text-white font-extrabold text-sm rounded-xl uppercase tracking-wider shadow-lg transition duration-300 transform active:scale-95 text-center flex items-center justify-center gap-2"
+        >
+          <i data-lucide="shopping-cart" class="w-4.5 h-4.5"></i> XÁC NHẬN ĐẶT HÀNG NGAY
+        </button>
+
+        <p class="text-[10px] text-zinc-400 text-center font-medium">🛡️ Chúng tôi cam kết tuyệt mật toàn bộ thông tin cá nhân của khách hàng đăng ký.</p>
+      </form>
+    </section>
+
+    <!-- ==================== FOOTER SECTION ==================== -->
+    <footer class="bg-zinc-900 text-zinc-500 pt-8 pb-12 px-4 text-center border-t border-zinc-800 text-[10px] leading-relaxed">
+      <div class="max-w-xs mx-auto space-y-3">
+        <p class="text-zinc-400 font-bold uppercase tracking-wider text-[11px]">CÔNG TY CỔ PHẦN SÁCH QBOOKS</p>
+        <p><i data-lucide="map-pin" class="inline w-3 h-3 text-brandOrange mr-0.5"></i> 192/173/66 P. Lê Trọng Tấn, Phương Liệt, Hà Nội</p>
+        <p><i data-lucide="phone" class="inline w-3 h-3 text-brandOrange mr-0.5"></i> Hotline: 00000000 | Email: sachqbooks@gmail.com | MST: 01231283</p>
+        <div class="border-t border-zinc-800/80 pt-3">
+          <p>© 2026 Bản quyền thuộc về CÔNG TY CỔ PHẦN SÁCH QBOOKS. All rights reserved.</p>
+          <p class="text-[9px] text-zinc-650 mt-1">Chính sách Bảo Mật | Quy định mua bán | Đăng ký bộ công thương</p>
+        </div>
+      </div>
+    </footer>
+
+  </main>
+</div>
+
+<!-- ==================== POPUP HIỂN THỊ ĐẶT HÀNG THÀNH CÔNG ==================== -->
+<div id="success-placement-modal" class="fixed inset-0 z-[100] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+  <div class="bg-white rounded-2xl w-full max-w-sm overflow-hidden shadow-2xl transform scale-95 transition-all duration-300">
+    <div class="bg-gradient-to-br from-emerald-500 to-teal-600 p-6 text-center text-white relative">
+      <div class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-3 shadow">
+        <i data-lucide="check-circle-2" class="w-8 h-8 text-white"></i>
+      </div>
+      <h3 class="text-base font-black uppercase">ĐẶT HÀNG THÀNH CÔNG!</h3>
+      <p class="text-xs text-emerald-100 mt-1">Hân hạnh được đồng hành cùng tri thức của bạn!</p>
+    </div>
+    
+    <div class="p-5 space-y-4">
+      <div class="text-xs text-slate-500 space-y-2">
+        <p class="font-semibold text-slate-700 text-center mb-1">KIỂM TRA THÔNG TIN ĐƠN HÀNG:</p>
+        <p><strong class="text-slate-700">Khách hàng:</strong> <span id="summary-name">...</span></p>
+        <p><strong class="text-slate-700">Điện thoại:</strong> <span id="summary-phone">...</span></p>
+        <p><strong class="text-slate-700">Gói sách:</strong> <span id="summary-package">...</span></p>
+        <p><strong class="text-slate-700">Địa chỉ nhận:</strong> <span id="summary-address">...</span></p>
+        <div class="border-t border-dashed border-slate-200 pt-2.5 flex justify-between items-center text-slate-800">
+          <strong class="font-bold">Tổng tiền (Thu hộ COD):</strong>
+          <strong class="text-sm font-black text-red-600" id="summary-total">0 ₫</strong>
+        </div>
+      </div>
+
+      <div class="bg-emerald-50 border border-emerald-100 p-3 rounded-lg text-emerald-800 text-[10.5px] leading-relaxed">
+        💡 <strong>Bộ phận vận chuyển thông báo:</strong> Đơn hàng sẽ được chuyển đến bưu tá đóng gói ngay lúc 08h00 sáng mai. Dự kiến bạn sẽ nhận được sách sau 2-4 ngày làm việc. Hãy giữ liên lạc nhé!
+      </div>
+
+      <button 
+        type="button" 
+        id="btn-close-success-modal"
+        class="w-full py-2.5 bg-slate-800 hover:bg-slate-900 text-white font-extrabold text-xs rounded-xl uppercase tracking-wide shadow transition"
+      >
+        HOÀN TẤT & ĐÓNG CỬA SỔ
+      </button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ==================== SCRIPT XỬ LÝ HÀNH VI TƯƠNG TÁC (INTERACTIVE JAVASCRIPT) ==================== -->
+<script>
+  // Khởi động các Icons đẹp mắt của Lucide
+  lucide.createIcons();
+
+  // Khai báo link Webhook Google Sheets của bạn
+  // [LINK_GOOGLE_SHEETS] - Gán link Webapp App Script của bạn vào đây
+  const GOOGLE_SHEET_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbz_XXXXXXXX_YOUR_DEPLOYED_WEBAPP_URL/exec";
+
+  // ==================== 1. XỬ LÝ ĐỒNG HỒ ĐẾM NGƯỢC (COUNTDOWN TIMER) ====================
+  function startCountdownTimer() {
+    let minutesTotal = 25;
+    let secondsTotal = minutesTotal * 60;
+    
+    const hoursEl = document.getElementById('hours-timer');
+    const minutesEl = document.getElementById('minutes-timer');
+    const secondsEl = document.getElementById('seconds-timer');
+
+    const interval = setInterval(() => {
+      if (secondsTotal <= 0) {
+        // Tự động hồi giờ để luôn duy trì sự gấp gáp tiếp diễn
+        secondsTotal = 25 * 60;
+      }
+      
+      secondsTotal--;
+      
+      const hrs = Math.floor(secondsTotal / 3600);
+      const mins = Math.floor((secondsTotal % 3600) / 60);
+      const secs = secondsTotal % 60;
+
+      if (hoursEl) hoursEl.textContent = String(hrs).padStart(2, '0');
+      if (minutesEl) minutesEl.textContent = String(mins).padStart(2, '0');
+      if (secondsEl) secondsEl.textContent = String(secs).padStart(2, '0');
+    }, 1000);
+  }
+  startCountdownTimer();
+
+
+  // ==================== 2. CẬP NHẬT GIAO DIỆN CHỌN GÓI SẢN PHẨM ====================
+  function updateSelectedPackageUI(selectedId) {
+    // Định nghĩa danh sách ID các gói
+    const packageIds = ['pkg-1', 'pkg-2', 'pkg-3'];
+    
+    packageIds.forEach(id => {
+      const container = document.getElementById('container-' + id);
+      if (container) {
+        if (id === selectedId) {
+          container.className = "relative block border-2 border-brandOrange bg-orange-50/10 rounded-xl p-4 cursor-pointer hover:border-brandOrange/50 transition mobile-package-card premium-shadow";
+        } else {
+          container.className = "relative block border-2 border-slate-200 rounded-xl p-4 cursor-pointer hover:border-brandOrange/50 transition mobile-package-card premium-shadow";
+        }
+      }
+    });
+
+    // Cập nhật hiển thị tổng tiền dự kiến tương ứng dưới Form
+    const selectedInput = document.querySelector('input[name="package_selection"]:checked');
+    if (selectedInput) {
+      const price = parseInt(selectedInput.getAttribute('data-price') || "0");
+      const formattedPrice = new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(price);
+      const priceTextNode = document.getElementById('form-total-price-display');
+      if (priceTextNode) priceTextNode.textContent = formattedPrice;
+    }
+  }
+
+  // Khởi khởi tạo trạng thái mặc định của tổng tiền
+  setTimeout(() => {
+    const defaultInput = document.querySelector('input[name="package_selection"]:checked');
+    if (defaultInput) {
+      updateSelectedPackageUI(defaultInput.value);
+    }
+  }, 300);
+
+
+  // ==================== 3. HỆ THỐNG ĐÁNH GIÁ CỦA NGƯỜI DÙNG TƯƠNG TÁC ====================
+  let activeUserRating = 5;
+  const starElements = document.querySelectorAll('#user-rating-stars span');
+  
+  starElements.forEach(star => {
+    star.addEventListener('click', function() {
+      const selectedRating = parseInt(this.getAttribute('data-star') || "5");
+      activeUserRating = selectedRating;
+      
+      starElements.forEach(s => {
+        const ratingVal = parseInt(s.getAttribute('data-star') || "0");
+        if (ratingVal <= selectedRating) {
+          s.className = "text-brandAmber transition hover:scale-110";
+        } else {
+          s.className = "text-slate-300 transition hover:scale-110";
+        }
+      });
+    });
+  });
+
+  const btnSubmitReview = document.getElementById('btn-submit-review');
+  if (btnSubmitReview) {
+    btnSubmitReview.addEventListener('click', function() {
+      const nameVal = document.getElementById('user-review-name').value.trim();
+      const textVal = document.getElementById('user-review-text').value.trim();
+      
+      if (!nameVal || !textVal) {
+        alert('Vui lòng nhập tên và nhận xét của bạn!');
+        return;
+      }
+      
+      // Tạo phần tử nhận xét mới thêm vào đầu danh sách
+      const container = document.getElementById('comments-container');
+      const newReviewHtml = `
+        <div class="bg-white p-4 rounded-xl border border-slate-100/80 premium-shadow animate-pulse-once">
+          <div class="flex items-center justify-between mb-2">
+            <div class="flex items-center gap-2.5">
+              <div class="w-8 h-8 rounded-full bg-slate-200 text-slate-600 font-extrabold flex items-center justify-center text-xs ring-2 ring-slate-100 uppercase">
+                ${nameVal.charAt(0)}
+              </div>
+              <div>
+                <div class="flex items-center gap-1.5">
+                  <span class="text-xs font-bold text-slate-800">${nameVal}</span>
+                  <span class="inline-flex items-center gap-0.5 bg-emerald-50 text-emerald-600 text-[8.5px] font-extrabold px-1.5 py-0.2 rounded-full border border-emerald-100">
+                    <i data-lucide="check" class="w-2.5 h-2.5 text-emerald-500"></i> Vừa gửi
+                  </span>
+                </div>
+                <div class="text-brandAmber text-[9px] gap-0.5 mt-0.5">
+                  ${Array(activeUserRating).fill('★').join(' ')}
+                </div>
+              </div>
+            </div>
+            <span class="text-[9.5px] font-medium text-slate-400">Vừa xong</span>
+          </div>
+          
+          <p class="text-xs text-slate-600 leading-relaxed font-normal mb-1.5 pl-0.5 text-slate-700">
+            ${textVal}
+          </p>
+        </div>
+      `;
+      
+      if (container) {
+        container.insertAdjacentHTML('afterbegin', newReviewHtml);
+        lucide.createIcons();
+      }
+      
+      // Reset input fields
+      document.getElementById('user-review-name').value = '';
+      document.getElementById('user-review-text').value = '';
+      alert('Cảm ơn bạn đã đóng góp đánh giá trải nghiệm!');
+    });
+  }
+
+
+  // ==================== 4. TRÒ CHƠI VÒNG QUAY MAY MẮN (GAMIFICATION) ====================
+  const btnSpin = document.getElementById('btn-spin-wheel');
+  const wheelElement = document.getElementById('wheel-element');
+  const wheelStatusText = document.getElementById('wheel-status-text');
+  let hasSpun = false;
+
+  if (btnSpin && wheelElement) {
+    btnSpin.addEventListener('click', function() {
+      if (hasSpun) {
+        alert('Mỗi khách hàng chỉ được tham gia quay thưởng 1 lần trong ngày!');
+        return;
+      }
+      
+      hasSpun = true;
+      wheelElement.style.transform = 'rotate(1850deg)'; // Quay nhiều vòng mượt mà
+      wheelStatusText.className = "text-[11px] text-slate-400 mt-3.5 italic";
+      if (wheelStatusText) wheelStatusText.textContent = "Hệ thống đang xoay xác định giải...";
+      
+      setTimeout(() => {
+        if (wheelStatusText) {
+          wheelStatusText.className = "text-[11.5px] text-emerald-600 font-extrabold mt-3.5";
+          wheelStatusText.textContent = "🎁 Chúc mừng! Bạn nhận được đặc quyền MIỄN PHÍ VẬN CHUYỂN TOÀN QUỐC + Sách nói!";
+        }
+        
+        // Tự động check và kích hoạt combo tốt nhất hoặc thông báo ship
+        alert('Chúc mừng! Ban nhận được Mã Quà Tặng MIỄN PHÍ VẬN CHUYỂN! Hệ thống đã ghi nhận quyền lợi và tự động áp dụng trực tiếp vào quá trình gửi sách của bạn.');
+        
+        // Cuộn chậm xuống form đặt hàng để họ điền ngay
+        const formEl = document.getElementById('dat-hang-ngay');
+        if (formEl) formEl.scrollIntoView({ behavior: 'smooth' });
+      }, 3100);
+    });
+  }
+
+
+  // ==================== 5. SUBMIT FORM & GỬI GOOGLE SHEETS WEBHOOKS ====================
+  const checkoutForm = document.getElementById('checkout-order-form');
+  const phoneInput = document.getElementById('client-phone-input');
+  const phoneTip = document.getElementById('phone-validation-tip');
+
+  if (checkoutForm) {
+    checkoutForm.addEventListener('submit', function(e) {
+      e.preventDefault(); // Chặn hành động tải lại trang mặc định
+      
+      const nameVal = document.getElementById('client-name-input').value.trim();
+      const phoneVal = document.getElementById('client-phone-input').value.trim();
+      const addressVal = document.getElementById('client-address-input').value.trim();
+      const noteVal = document.getElementById('client-note-input').value.trim();
+      
+      const selectedPkgInput = document.querySelector('input[name="package_selection"]:checked');
+      if (!selectedPkgInput) {
+        alert('Vui lòng lựa chọn gói sản phẩm cần mua!');
+        return;
+      }
+      
+      const pkgId = selectedPkgInput.value;
+      const pkgName = selectedPkgInput.getAttribute('data-name') || "Chưa rõ";
+      const pkgPrice = parseInt(selectedPkgInput.getAttribute('data-price') || "0");
+      
+      // Kiểm tra chất lượng dữ liệu: Định dạng số điện thoại Việt Nam chuẩn
+      const phoneRegex = /^(03|05|07|08|09)\d{8}$/;
+      if (!phoneRegex.test(phoneVal)) {
+        phoneInput.classList.add('border-red-500', 'bg-red-50');
+        phoneTip.classList.remove('hidden');
+        phoneInput.focus();
+        return;
+      } else {
+        phoneInput.classList.remove('border-red-500', 'bg-red-50');
+        phoneTip.classList.add('hidden');
+      }
+
+      // Kích hoạt trạng thái nút chờ gửi bảo mật tránh click đúp (Double-Submit prevention)
+      const submitBtn = document.getElementById('btn-submit-order');
+      const originalText = submitBtn.innerHTML;
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<span class="animate-spin mr-2 inline-block w-4 h-4 rounded-full border-2 border-white border-t-transparent"></span> ĐANG XỬ LÝ ĐƠN HÀNG CHÚT...';
+
+      // 1. Chuẩn bị Payload đóng gói gửi đi
+      const orderPayload = {
+        fullName: nameVal,
+        phoneNumber: phoneVal,
+        shippingAddress: addressVal,
+        noteMessage: noteVal,
+        packageName: pkgName,
+        packageId: pkgId,
+        totalPrice: pkgPrice,
+        currentTime: new Date().toISOString()
+      };
+
+      // Gửi đơn dữ liệu sang cho Previewer Applet lưu trữ nội bộ
+      try {
+        window.parent.postMessage({ type: 'BOOK_ORDER_SUBMITTED', data: orderPayload }, '*');
+      } catch(err) {
+        console.log('Applet notice sent error:', err);
+      }
+
+      // 2. Gọi API thực tế gửi lên Google App Script của bạn
+      if (GOOGLE_SHEET_WEBHOOK_URL && GOOGLE_SHEET_WEBHOOK_URL.indexOf('XXXXXX') === -1) {
+        fetch(GOOGLE_SHEET_WEBHOOK_URL, {
+          method: 'POST',
+          mode: 'no-cors', // Rất quan trọng để tránh lỗi CORS khi gọi chéo tên miền đến Apps Script
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(orderPayload)
+        })
+        .then(() => {
+          console.log('Successfully requested Webhook endpoint!');
+          showSuccessPlacementModal(orderPayload, pkgPrice);
+        })
+        .catch(err => {
+          console.error('Lỗi truyền tải webhooks:', err);
+          // Vẫn tiến hành xem như thành công vì cơ chế 'no-cors' không trả về tín hiệu phản hồi đầy đủ
+          showSuccessPlacementModal(orderPayload, pkgPrice);
+        })
+        .finally(() => {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = originalText;
+        });
+      } else {
+        // Nếu người dùng chưa liên kết URL Sheet, chúng ta hoàn tất cục bộ tuyệt vời
+        console.log('Google Sheets Webhook has not been specified yet. Handled simulated payload locally.');
+        setTimeout(() => {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = originalText;
+          showSuccessPlacementModal(orderPayload, pkgPrice);
+        }, 1200);
+      }
+    });
+  }
+
+  // Khôi phục lỗi viền đỏ khi nhập lại SĐT
+  if (phoneInput) {
+    phoneInput.addEventListener('input', function() {
+      this.classList.remove('border-red-500', 'bg-red-50');
+      phoneTip.classList.add('hidden');
+    });
+  }
+
+  // ==================== 6. CHƯƠNG TRÌNH ĐIỀU CHỈNH SUCCESS MODAL ====================
+  function showSuccessPlacementModal(order, priceVal) {
+    document.getElementById('summary-name').textContent = order.fullName;
+    document.getElementById('summary-phone').textContent = order.phoneNumber;
+    document.getElementById('summary-package').textContent = order.packageName;
+    document.getElementById('summary-address').textContent = order.shippingAddress;
+    
+    const formattedPrice = new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(priceVal);
+    document.getElementById('summary-total').textContent = formattedPrice;
+    
+    // Mở Modal
+    const modal = document.getElementById('success-placement-modal');
+    if (modal) {
+      modal.classList.remove('hidden');
+      modal.children[0].className = "bg-white rounded-2xl w-full max-w-sm overflow-hidden shadow-2xl transform scale-100 transition-all duration-300";
+    }
+  }
+
+  const btnCloseModal = document.getElementById('btn-close-success-modal');
+  if (btnCloseModal) {
+    btnCloseModal.addEventListener('click', function() {
+      const modal = document.getElementById('success-placement-modal');
+      if (modal) {
+        modal.classList.add('hidden');
+        modal.children[0].className = "bg-white rounded-2xl w-full max-w-sm overflow-hidden shadow-2xl transform scale-95 transition-all duration-300";
+      }
+      
+      // Reset form sau khi đặt xong
+      if (checkoutForm) checkoutForm.reset();
+      // Reset tổng tiền về mặc định combo
+      setTimeout(() => {
+        const defaultInput = document.querySelector('input[name="package_selection"]:checked');
+        if (defaultInput) {
+          updateSelectedPackageUI(defaultInput.value);
+        }
+      }, 300);
+    });
+  }
+
+</script>
